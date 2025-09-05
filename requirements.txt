@@ -1,0 +1,8 @@
+pandas
+numpy
+scikit-learn
+matplotlib
+
+
+
+# -e .  #Trigger the setup.py file to install the package in editable mode
