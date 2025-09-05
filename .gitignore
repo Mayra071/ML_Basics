@@ -178,3 +178,4 @@ pyrightconfig.json
 # exclude files
 logs/
 # template.py
+artifacts/
