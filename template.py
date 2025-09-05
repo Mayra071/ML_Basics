@@ -6,7 +6,7 @@ from logging import Logger
 logging.basicConfig(level=logging.INFO)
 logger: Logger = logging.getLogger(__name__)
 
-project_name = "DiabetesPrediction"
+project_name = "Braest_Cancer_prediction"
 
 file_paths=[
     # f"src/{project_name}",
@@ -27,6 +27,7 @@ file_paths=[
     f"src/{project_name}/logger.py",
     f"src/{project_name}/utils.py",
     "app.py",
+    "main.py",
     # "requirements.txt",
     "README.md",
     # "setup.py",
