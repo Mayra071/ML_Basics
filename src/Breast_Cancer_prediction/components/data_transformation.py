@@ -19,38 +19,23 @@ class DataTransformation:
     def __init__(self):
         self.data_transformation_config = DataTransformationConfig()
 
-    def get_data_transformer_object(self):
+    def get_data_transformer_object(self, numerical_cols):
         """
-        This function is responsible for data transformation
+        Build a preprocessing pipeline for provided numerical columns.
         """
         try:
             logging.info("Data Transformation initiated")
 
-            # Numerical columns only (target will be encoded separately)
-            numerical_cols=['radius_mean', 'texture_mean', 'perimeter_mean', 'area_mean',
-                            'smoothness_mean', 'compactness_mean', 'concavity_mean',
-                            'concave points_mean', 'symmetry_mean',
-                            'fractal_dimension_mean', 'radius_se', 
-                            'texture_se', 'perimeter_se', 'area_se', 
-                            'smoothness_se', 'compactness_se', 'concavity_se', 
-                            'concave points_se', 'symmetry_se','fractal_dimension_se', 
-                            'radius_worst', 'texture_worst', 'perimeter_worst', 'area_worst',
-                            'smoothness_worst', 'compactness_worst', 'concavity_worst',
-                            'concave points_worst', 'symmetry_worst', 'fractal_dimension_worst' 
-                            ]
-
-            # Numerical pipeline
             num_pipeline = Pipeline(steps=[
                 ('imputer', SimpleImputer(strategy='median')),
                 ('scaler', MinMaxScaler())
             ])
 
-            # Combine both
             preprocessor = ColumnTransformer(transformers=[
                 ('num_pipeline', num_pipeline, numerical_cols)
             ])
 
-            logging.info("Numerical and categorical columns are transformed")
+            logging.info("Numerical columns are transformed")
             return preprocessor
 
         except Exception as e:
@@ -67,22 +52,35 @@ class DataTransformation:
             logging.info(f"Train Dataframe Head : \n{train_df.head().to_string()}")
             logging.info(f"Test Dataframe Head : \n{test_df.head().to_string()}")
 
-            # Preprocessor
-            logging.info("Obtaining preprocessor object")
-            preprocessor_obj = self.get_data_transformer_object()
-
             # Target column
             target_column_name = 'diagnosis'
 
             # Drop unwanted columns
             drop_columns = ['id', 'Unnamed: 32', target_column_name]
 
+            # Derive numerical columns dynamically from train_df
+            numerical_cols = [
+                col for col in train_df.columns
+                if col not in drop_columns
+            ]
+            # Ensure all columns exist in both train and test
+            missing_in_test = [c for c in numerical_cols if c not in test_df.columns]
+            if missing_in_test:
+                logging.info(f"Columns missing in test and will be dropped from train too: {missing_in_test}")
+                numerical_cols = [c for c in numerical_cols if c in test_df.columns]
+
+            logging.info(f"Using {len(numerical_cols)} numerical columns for transformation")
+
+            # Preprocessor
+            logging.info("Obtaining preprocessor object")
+            preprocessor_obj = self.get_data_transformer_object(numerical_cols)
+
             # Split train data
-            input_feature_train_df = train_df.drop(columns=drop_columns, axis=1)
+            input_feature_train_df = train_df.drop(columns=[c for c in drop_columns if c in train_df.columns], axis=1)
             target_feature_train_df = train_df[target_column_name].map({'B': 0, 'M': 1}).astype(int)
 
             # Split test data
-            input_feature_test_df = test_df.drop(columns=drop_columns, axis=1)
+            input_feature_test_df = test_df.drop(columns=[c for c in drop_columns if c in test_df.columns], axis=1)
             target_feature_test_df = test_df[target_column_name].map({'B': 0, 'M': 1}).astype(int)
 
             logging.info("Applying preprocessing object on training and testing datasets")

@@ -44,7 +44,8 @@ def read_data():
         return df
     except Exception as e:
         raise CustomException(e, sys)
-
+    
+    
 # function to save object
 def save_object(file_path, obj):
     try:
@@ -58,29 +59,28 @@ def save_object(file_path, obj):
         raise CustomException(e, sys)
     
     
+
 def evaluate_models(X_train, y_train, X_test, y_test, models, params):
+    """Run grid search for each model and return classification reports for test set.
+    Returns a dict: { model_name: classification_report_string }
+    """
     try:
-        report = {}
-        
-        for i in range(len(list(models))):
-            model = list(models.values())[i]
-            param = params[list(models.keys())[i]]
+        reports = {}
+        for model_name, model in models.items():
+            param_grid = params.get(model_name, {})
             
-            gs = GridSearchCV(model, param, cv=5)
+            logging.info(f"Grid searching {model_name} with params: {param_grid}")
+            gs = GridSearchCV(model, param_grid, cv=3, n_jobs=-1, scoring='accuracy', verbose=0)
             gs.fit(X_train, y_train)
-            
-            model.set_params(**gs.best_params_)
-            model.fit(X_train, y_train)
-            
-            y_train_pred = model.predict(X_train)
-            train_model_score = accuracy_score(y_train, y_train_pred)
-            logging.info(f'train_model_score: {train_model_score}')
-            
-            y_test_pred = model.predict(X_test)
-            test_model_score = accuracy_score(y_test, y_test_pred)
-            logging.info(f'test_model_score: {test_model_score}')
-            report[list(models.keys())[i]] =classification_report(y_test, y_test_pred)
-            
-        return report
+
+            best_model = gs.best_estimator_
+            y_test_pred = best_model.predict(X_test)
+
+            report_text = classification_report(y_test, y_test_pred)
+            logging.info(f"{model_name} best params: {gs.best_params_}")
+            logging.info(f"{model_name} classification report:\n{report_text}")
+
+            reports[model_name] = report_text
+        return reports
     except Exception as e:
         raise CustomException(e, sys)

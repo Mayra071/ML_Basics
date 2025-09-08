@@ -5,6 +5,7 @@ import pandas as pd
 import numpy as np
 from sklearn.linear_model import LogisticRegression
 import xgboost as xgb
+from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix, roc_auc_score
 from src.Breast_Cancer_prediction.logger import logging
 from  src.Breast_Cancer_prediction.exception import CustomException
@@ -33,44 +34,47 @@ class ModelTrainer:
             params={
                 "Logistic Regression": {
                     'C': [0.1, 1.0, 3.0],
-                    'penalty': ['l1', 'l2'],
+                    'solver': ['liblinear'],
                     'max_iter': [1000],
-                    'random_state': [42],
-                    'class_weight': ['balanced', None],
-                    'solver': ['liblinear', 'saga']
+                    'class_weight': ['balanced']
                 },
                 "XGBoost": {
-                    'learning_rate': [0.01, 0.1, 0.2],
-                    'subsample': [0.6, 0.8, 1.0],
-                    'max_depth': [4, 6, 8],
+                    'learning_rate': [0.05, 0.1],
+                    'subsample': [0.8, 1.0],
+                    'max_depth': [4, 6],
+                    'objective': ['binary:logistic'],
                     'eval_metric': ['logloss'],
-                    'feature_selector':['shuffle'],
-                    'use_label_encoder': [False],
-                    'n_estimators': [50, 100, 200]
-                    
+                    'n_jobs': [-1],
+                    'tree_method': ['hist'],
+                    'n_estimators': [150]
                 }
             }
             
-            # model evaluation
-            model_report: dict = evaluate_models(X_train, y_train, X_test, y_test, models, params)
+            # get classification reports for all models
+            reports = evaluate_models(X_train, y_train, X_test, y_test, models, params)
             
-            # to get the best model score from the dictionary
-            best_model_score = max(sorted(model_report['accuracy'].values()))
-            
-            # best model name
-            best_model_name = list(model_report.keys())[
-                list(model_report.values()).index(best_model_score)
-            ]
-            logging.info(f"Best model found: {best_model_name} with score {best_model_score}")
-            # saving the object
+            # Also save the best model by simple accuracy parsing from reports (optional)
+            # Compute accuracy from predictions again for saving best model
+            # # Re-run grid search quickly to get best estimator for each, then pick highest accuracy
+           
+            # accuracies = {}
+            # best_estimators = {}
+            # for model_name, model in models.items():
+            #     gs = GridSearchCV(model, params.get(model_name, {}), cv=3, n_jobs=-1, scoring='accuracy', verbose=0)
+            #     gs.fit(X_train, y_train)
+            #     best_model = gs.best_estimator_
+            #     acc = accuracy_score(y_test, best_model.predict(X_test))
+            #     accuracies[model_name] = acc
+            #     best_estimators[model_name] = best_model
+            # best_model_name = max(accuracies, key=accuracies.get)
             save_object(
                 file_path=self.model_trainer_config.trained_model_file_path,
-                obj=models[best_model_name]
+                # obj=best_estimators[best_model_name]
+                obj=reports
             )
             logging.info("Best model saved")
             
-            return best_model_name, best_model_score
-            
+            return reports
             
         except Exception as e:
             raise CustomException(e, sys)

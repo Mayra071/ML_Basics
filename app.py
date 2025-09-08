@@ -35,9 +35,13 @@ if __name__ == "__main__":
 
         # Model Trainer
         model_trainer = ModelTrainer()
-        name,acc=model_trainer.initiate_model_trainer(transformed_train_data, transformed_test_data)
+        reports = model_trainer.initiate_model_trainer(transformed_train_data, transformed_test_data)
         logging.info("Model training completed successfully")
-        logging.info(f"Best Model: {name} with accuracy: {acc}")
+        # Log both model classification reports only
+        # for model_name, report_text in reports.items():
+        #     logging.info(f"\nClassification Report for {model_name}:\n{report_text}")
+        
+        
 
     except Exception as e:
         logging.info("An error occurred")
