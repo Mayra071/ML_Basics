@@ -61,14 +61,19 @@ def save_object(file_path, obj):
     
 
 def evaluate_models(X_train, y_train, X_test, y_test, models, params):
-    """Run grid search for each model and return classification reports for test set.
-    Returns a dict: { model_name: classification_report_string }
     """
+    Run grid search for each model and return classification reports + best models.
+    Returns:
+        reports (dict): { model_name: { "report_text": str, "report_dict": dict, "best_params": dict } }
+        best_models (dict): { model_name: fitted_estimator }
+    """
+    reports = {}
+    best_models = {}
+    
     try:
-        reports = {}
         for model_name, model in models.items():
             param_grid = params.get(model_name, {})
-            
+
             logging.info(f"Grid searching {model_name} with params: {param_grid}")
             gs = GridSearchCV(model, param_grid, cv=3, n_jobs=-1, scoring='accuracy', verbose=0)
             gs.fit(X_train, y_train)
@@ -77,10 +82,18 @@ def evaluate_models(X_train, y_train, X_test, y_test, models, params):
             y_test_pred = best_model.predict(X_test)
 
             report_text = classification_report(y_test, y_test_pred)
+            report_dict = classification_report(y_test, y_test_pred, output_dict=True)
+
             logging.info(f"{model_name} best params: {gs.best_params_}")
             logging.info(f"{model_name} classification report:\n{report_text}")
 
-            reports[model_name] = report_text
-        return reports
+            reports[model_name] = {
+                "report_text": report_text,
+                "report_dict": report_dict,
+                "best_params": gs.best_params_
+            }
+            best_models[model_name] = best_model
+
+        return reports, best_models
     except Exception as e:
         raise CustomException(e, sys)

@@ -1,0 +1,31 @@
+digest: e4d08b68
+name: Breast_Cancer
+profile: '{"num_rows": 569, "num_elements": 18777}'
+schema: '{"mlflow_colspec": [{"type": "long", "name": "id", "required": true}, {"type":
+  "string", "name": "diagnosis", "required": true}, {"type": "double", "name": "radius_mean",
+  "required": true}, {"type": "double", "name": "texture_mean", "required": true},
+  {"type": "double", "name": "perimeter_mean", "required": true}, {"type": "double",
+  "name": "area_mean", "required": true}, {"type": "double", "name": "smoothness_mean",
+  "required": true}, {"type": "double", "name": "compactness_mean", "required": true},
+  {"type": "double", "name": "concavity_mean", "required": true}, {"type": "double",
+  "name": "concave points_mean", "required": true}, {"type": "double", "name": "symmetry_mean",
+  "required": true}, {"type": "double", "name": "fractal_dimension_mean", "required":
+  true}, {"type": "double", "name": "radius_se", "required": true}, {"type": "double",
+  "name": "texture_se", "required": true}, {"type": "double", "name": "perimeter_se",
+  "required": true}, {"type": "double", "name": "area_se", "required": true}, {"type":
+  "double", "name": "smoothness_se", "required": true}, {"type": "double", "name":
+  "compactness_se", "required": true}, {"type": "double", "name": "concavity_se",
+  "required": true}, {"type": "double", "name": "concave points_se", "required": true},
+  {"type": "double", "name": "symmetry_se", "required": true}, {"type": "double",
+  "name": "fractal_dimension_se", "required": true}, {"type": "double", "name": "radius_worst",
+  "required": true}, {"type": "double", "name": "texture_worst", "required": true},
+  {"type": "double", "name": "perimeter_worst", "required": true}, {"type": "double",
+  "name": "area_worst", "required": true}, {"type": "double", "name": "smoothness_worst",
+  "required": true}, {"type": "double", "name": "compactness_worst", "required": true},
+  {"type": "double", "name": "concavity_worst", "required": true}, {"type": "double",
+  "name": "concave points_worst", "required": true}, {"type": "double", "name": "symmetry_worst",
+  "required": true}, {"type": "double", "name": "fractal_dimension_worst", "required":
+  true}, {"type": "double", "name": "Unnamed: 32", "required": false}]}'
+source: '{"tags": {"mlflow.user": "aryam", "mlflow.source.name": "app.py", "mlflow.source.type":
+  "LOCAL", "mlflow.source.git.commit": "8fec2e56c90538cc11072726fc02d325c45e838a"}}'
+source_type: code

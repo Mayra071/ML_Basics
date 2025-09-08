@@ -6,6 +6,7 @@ dotenv
 seaborn
 
 xgboost
+mlflow
 
 
 # -e .  #Trigger the setup.py file to install the package in editable mode
