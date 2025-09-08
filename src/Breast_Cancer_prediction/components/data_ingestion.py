@@ -33,7 +33,7 @@ class DataIngestion:
             # read the dataset
             # We can read the dataset from a local path or a database like MySQL, MongoDB, PostgreSQL, etc.
             
-            df=read_data()
+            df=pd.read_csv('C:\\Company\\week1_p1\\artifacts\\data.csv')
             
             logging.info('Read the dataset as dataframe')
 
