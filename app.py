@@ -30,8 +30,8 @@ if __name__ == "__main__":
         # Logging transformed data
         logging.info("Data transformation completed successfully")
         # print transformed data
-        logging.info(f"Transformed Train Data:\n{transformed_train_data[:5]}")
-        logging.info(f"Transformed Test Data:\n{transformed_test_data[:5]}")
+        logging.info(f"Transformed Train Data:\n{transformed_train_data[:2]}")
+        logging.info(f"Transformed Test Data:\n{transformed_test_data[:2]}")
 
         # Model Trainer
         model_trainer = ModelTrainer()
