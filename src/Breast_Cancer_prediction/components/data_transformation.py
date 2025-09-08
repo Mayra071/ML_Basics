@@ -96,6 +96,9 @@ class DataTransformation:
             test_arr = np.c_[input_feature_test_arr, np.array(target_feature_test_df)]
 
             logging.info("Saved preprocessing object")
+            # Final shape of arrays
+            logging.info(f"Final Train Array Shape: {train_arr.shape}")
+            logging.info(f"Final Test Array Shape: {test_arr.shape}")
 
             # Save preprocessor object
             save_object(

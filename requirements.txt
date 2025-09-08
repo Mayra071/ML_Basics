@@ -1,9 +1,11 @@
 pandas
 numpy
-scikit-learn
+scikit-learn==1.6.1
 matplotlib
 dotenv
-seborn
+seaborn
+
+xgboost
 
 
 # -e .  #Trigger the setup.py file to install the package in editable mode
