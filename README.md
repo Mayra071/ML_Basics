@@ -1,4 +1,5 @@
-# Breast Cancer Prediction ML Pipeline
+# End-to-end MLOps pipeline for Breast Cancer diagnosis with Logistic Regression & XGBoost, featuring MLflow tracking and Dockerized deployment.
+
 
 A machine learning pipeline for predicting breast cancer diagnosis using Logistic Regression and XGBoost. Implements MLOps with data preprocessing, model training, evaluation, and MLflow tracking.
 
@@ -109,6 +110,15 @@ model_trainer = ModelTrainer()
 reports = model_trainer.initiate_model_trainer(train_path, test_path)
 ```
 
+## 📊 Results
+
+Example Confusion Matrix:
+![Confusion Matrix](artifacts/confusion_matrix.png)
+
+Example MLflow Tracking:
+![MLflow](artifacts/mlflow_ui.png)
+
+
 ## 🤝 Contributing
 
 1. Fork the repo
@@ -128,3 +138,8 @@ MIT License
 
 - University of Wisconsin Hospitals for the dataset
 - Scikit-learn, MLflow, XGBoost communities
+
+- ![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
+![MLflow](https://img.shields.io/badge/MLflow-enabled-orange)
+![Docker](https://img.shields.io/badge/Docker-ready-blue)
+
