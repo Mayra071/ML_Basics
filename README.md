@@ -113,8 +113,12 @@ reports = model_trainer.initiate_model_trainer(train_path, test_path)
 ## 📊 Results
 
 Example Confusion Matrix:
+<<<<<<< HEAD
 ![Confusion Matrix](artifacts/Images/logistic_regression_confusion.jpg)
 ![Confusion Matrix](artifacts/Images/xgboost_confusion.jpg)
+=======
+![Confusion Matrix](artifacts/confusion_matrix.png)
+>>>>>>> 7a15055b5ed4f7f00835a35561fbcfaeb469d596
 
 Example MLflow Tracking:
 ![MLflow](artifacts/mlflow_ui.png)
