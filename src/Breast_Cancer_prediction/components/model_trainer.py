@@ -79,12 +79,12 @@ class ModelTrainer:
             
             # Configure MLflow (env overrides supported)
             tracking_uri = os.getenv("MLFLOW_TRACKING_URI", "http://localhost:5000")
-            experiment_name = os.getenv("MLFLOW_EXPERIMENT", "Breast_Cancer_Prediction")
+            experiment_name = os.getenv("MLFLOW_EXPERIMENT", "Breast_Cancer_Prediction01")
             set_tracking_uri(tracking_uri)
             set_experiment(experiment_name)
             
             # Ensure confusion matrix directory exists
-            conf_dir = os.path.join('artifacts', 'confussion')
+            conf_dir = os.path.join('artifacts', 'Images')
             os.makedirs(conf_dir, exist_ok=True)
 
             # Load dataset once (from project root artifacts)

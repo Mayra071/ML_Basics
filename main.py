@@ -1,7 +1,7 @@
 import pickle
-with open("artifacts/preprocessor.pkl", "rb") as f:
-    preprocessor = pickle.load(f)
+with open("artifacts/model.pkl", "rb") as f:
+    model = pickle.load(f)
 
-print(preprocessor)
-print(preprocessor.named_transformers_)
+print(model)
+# print(preprocessor.named_transformers_)
 

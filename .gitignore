@@ -181,6 +181,8 @@ logs/
 artifacts/data.csv
 artifacts/test.csv
 artifacts/train.csv
+mlruns/
+mlartifacts/
 
 
 ."
